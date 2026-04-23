@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f5ff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>PerformAI — Camille · Klara RH</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5ff;--bg2:#ffffff;--bg3:#f0eeff;--bg4:#e8e3ff;
+  --ink:#1e1a2e;--ink2:#3d3660;--ink3:#8880aa;
+  --v:#7c5fe6;--v2:#6b4ed4;--v3:#ede8ff;--v4:#f8f6ff;
+  --t:#00b4a0;--t2:#009e8c;--t3:#e0f7f5;
+  --am:#f0a500;--am2:#d4900a;--am3:#fff7e0;
+  --ro:#e8445a;--ro3:#ffe8eb;
+  --gr:#28a776;--gr3:#e6f7f1;
+  --bd:rgba(0,0,0,.07);--bd2:rgba(124,95,230,.15);
+  --sans:'DM Sans',system-ui,sans-serif;
+  --serif:'Fraunces',Georgia,serif;
+  --r:8px;--sh:0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+.app{display:grid;grid-template-columns:268px 1fr;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{background:var(--bg2);border-right:1px solid var(--bd);padding:22px 14px;display:flex;flex-direction:column;gap:3px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.s-profile{padding:4px 8px 18px;border-bottom:1px solid var(--bd);margin-bottom:10px}
+.s-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--t));display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.15rem;font-weight:600;color:white;margin-bottom:10px}
+.s-name{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.s-role{font-size:.76rem;color:var(--ink3)}
+.s-star{display:inline-flex;align-items:center;gap:4px;margin-top:8px;background:var(--gr3);border:1px solid rgba(40,167,118,.2);border-radius:100px;padding:3px 10px;font-size:.7rem;font-weight:600;color:var(--gr)}
+.nsec{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(136,128,170,.5);padding:12px 8px 3px}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r);font-size:.84rem;font-weight:500;color:var(--ink3);cursor:pointer;transition:all .15s;border:none;background:transparent;width:100%;text-align:left}
+.ni:hover{background:var(--bg3);color:var(--ink)}
+.ni.active{background:var(--v3);color:var(--v2);font-weight:600}
+.ni-ic{font-size:.85rem;width:18px;text-align:center;flex-shrink:0}
+.sb-bot{margin-top:auto;padding-top:14px;border-top:1px solid var(--bd)}
+.upbanner{background:var(--v3);border:1px solid var(--bd2);border-radius:var(--r);padding:14px;margin-bottom:12px;text-align:center}
+.upbanner p{font-size:.76rem;color:var(--ink3);margin-bottom:10px;line-height:1.5}
+.upbanner strong{color:var(--ink)}
+.upbtn{display:block;width:100%;padding:9px;background:var(--v2);color:white;border:none;border-radius:var(--r);font-family:var(--sans);font-size:.78rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .15s}
+.upbtn:hover{background:var(--v);transform:translateY(-1px)}
+
+/* ── MAIN ── */
+.main{display:flex;flex-direction:column}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--bd);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.tb-l{display:flex;align-items:center;gap:12px}
+.tb-title{font-size:.95rem;font-weight:600;color:var(--ink)}
+.tb-r{display:flex;gap:8px;align-items:center}
+.btn{padding:7px 16px;border-radius:var(--r);font-family:var(--sans);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .15s;border:none}
+.btn-g{background:transparent;color:var(--ink3);border:1px solid var(--bd)}
+.btn-g:hover{border-color:var(--v);color:var(--v)}
+.btn-v{background:var(--v2);color:white}
+.btn-v:hover{background:var(--v);transform:translateY(-1px)}
+.btn-v:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.lang-tog{display:flex;align-items:center;border:1px solid var(--bd);overflow:hidden;border-radius:4px;font-size:.7rem;font-weight:600}
+.lbtn{padding:5px 9px;border:none;background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--sans);font-size:inherit;font-weight:inherit;transition:all .15s}
+.lbtn.active{background:var(--v2);color:white}
+
+/* ── CONTENT ── */
+.content{padding:28px;flex:1}
+.view{display:none}.view.active{display:block}
+.ph{margin-bottom:24px}
+.ph h1{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--ink);margin-bottom:5px;letter-spacing:-.01em}
+.ph p{font-size:.84rem;color:var(--ink3);line-height:1.6}
+
+/* ── FORM ── */
+.fcard{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:24px;box-shadow:var(--sh)}
+.fcard h3{font-size:.88rem;font-weight:700;color:var(--ink2);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+.ferr{background:var(--ro3);border:1px solid rgba(232,68,90,.2);border-radius:var(--r);padding:9px 13px;font-size:.8rem;color:var(--ro);margin-bottom:12px;display:none}
+.ferr.show{display:block}
+.fr{margin-bottom:14px}
+.fr label{display:block;font-size:.7rem;font-weight:700;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.fr input,.fr select,.fr textarea{width:100%;background:var(--bg3);border:1px solid var(--bd);border-radius:var(--r);padding:9px 12px;font-family:var(--sans);font-size:.875rem;color:var(--ink);outline:none;transition:border-color .15s}
+.fr input:focus,.fr select:focus,.fr textarea:focus{border-color:var(--v)}
+.fr textarea{resize:vertical;min-height:76px;line-height:1.6}
+.fr select option{background:var(--bg2)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rpills{display:flex;gap:7px;flex-wrap:wrap}
+.rpill{padding:5px 14px;border-radius:100px;font-size:.76rem;font-weight:600;border:1.5px solid var(--bd);color:var(--ink3);cursor:pointer;transition:all .15s}
+.rpill:hover{border-color:var(--v);color:var(--v)}
+.rpill.active{background:var(--v3);border-color:var(--v);color:var(--v2)}
+
+/* ── LOADING ── */
+.ail{display:none;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:16px;text-align:center}
+.ail.show{display:flex}
+.aisp{width:44px;height:44px;border:2px solid rgba(124,95,230,.15);border-top-color:var(--v);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ail h3{font-family:var(--serif);font-size:1.1rem;color:var(--ink)}
+.ail p{font-size:.84rem;color:var(--ink3)}
+.aisteps{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.aistep{font-size:.8rem;color:var(--ink3);display:flex;align-items:center;gap:8px}
+.aistep.done{color:var(--gr)}.aistep.active .asd{background:var(--v);animation:pulse 1s infinite}.aistep.done .asd{background:var(--gr)}
+.asd{width:6px;height:6px;border-radius:50%;background:var(--bd);flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ── RESULT ── */
+.rcard{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px;box-shadow:var(--sh)}
+.rhead{padding:18px 22px;border-bottom:1px solid var(--bd)}
+.rhead h3{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:6px}
+.rbody{padding:20px 22px}
+
+/* SCORE GRID */
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.scell{background:var(--bg3);border:1px solid var(--bd);border-radius:var(--r);padding:14px;text-align:center;transition:border-color .2s}
+.scell:hover{border-color:var(--v2)}
+.sval{font-family:var(--serif);font-size:1.6rem;font-weight:600;line-height:1;margin-bottom:3px}
+.slbl{font-size:.65rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em}
+.sbar{height:3px;border-radius:2px;margin-top:7px;background:var(--bg4);overflow:hidden}
+.sfill{height:100%;border-radius:2px;transition:width 1s ease .2s}
+
+/* SUMMARY */
+.sumbox{background:linear-gradient(135deg,var(--v3),var(--t3));border:1px solid var(--bd2);border-radius:var(--r);padding:18px;margin-bottom:18px}
+.sumbox p{font-family:var(--serif);font-style:italic;font-size:.92rem;color:var(--ink2);line-height:1.7}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:100px;font-size:.7rem;font-weight:600}
+.tv{background:var(--v3);color:var(--v2)}.tt{background:var(--t3);color:var(--t2)}.ta{background:var(--am3);color:var(--am2)}.tg{background:var(--gr3);color:var(--gr)}.tr{background:var(--ro3);color:var(--ro)}
+
+/* ITEMS */
+.icard{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:8px;box-shadow:var(--sh);transition:all .15s}
+.icard:hover{border-color:var(--bd2);transform:translateY(-1px)}
+
+/* STRENGTH/IMPROVE */
+.si{display:flex;gap:9px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--bd)}
+.si:last-child{border-bottom:none}
+.si-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.si-txt{font-size:.84rem;color:var(--ink2);line-height:1.55}
+.ai-item{background:var(--am3);border:1px solid rgba(240,165,0,.15);border-radius:var(--r);padding:11px 13px;margin-bottom:8px}
+.ai-title{font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.ai-desc{font-size:.78rem;color:#7a5800;line-height:1.5}
+
+/* OKR */
+.okrcard{background:var(--bg2);border:1px solid var(--bd);border-left:3px solid var(--v2);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--sh);transition:all .2s}
+.okrcard:hover{border-left-color:var(--t);transform:translateY(-1px)}
+.okrh{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.okrn{width:28px;height:28px;border-radius:7px;background:var(--v3);color:var(--v2);font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.okrobj{font-size:.92rem;font-weight:700;color:var(--ink);flex:1;line-height:1.4}
+.kritem{background:var(--bg3);border-radius:var(--r);padding:10px 12px;margin-bottom:5px}
+.krrow{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.krtxt{font-size:.8rem;color:var(--ink2);flex:1;line-height:1.35}
+.krtgt{font-size:.74rem;font-weight:700;color:var(--v2);white-space:nowrap}
+.krbar{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.krfill{height:100%;background:var(--v2);border-radius:2px;transition:width .8s ease}
+
+/* PLANS */
+.plancard{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:18px;margin-bottom:10px;box-shadow:var(--sh)}
+.planh{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.plann{width:28px;height:28px;border-radius:7px;background:var(--v3);color:var(--v2);font-size:.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.plantitle{font-size:.92rem;font-weight:700;color:var(--ink);flex:1}
+.plantl{font-size:.7rem;color:var(--ink3);margin-top:2px}
+.plandesc{font-size:.82rem;color:var(--ink2);line-height:1.65;margin-bottom:10px}
+.stlist{display:flex;flex-direction:column;gap:6px}
+.st{display:flex;gap:8px;align-items:flex-start}
+.stn{width:20px;height:20px;border-radius:50%;background:var(--bg4);color:var(--ink3);font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.stt{font-size:.8rem;color:var(--ink2);line-height:1.5}
+.sm{background:var(--t3);border:1px solid rgba(0,180,160,.15);border-radius:var(--r);padding:9px 12px;margin-top:10px;font-size:.78rem;color:var(--t2)}
+
+/* GUIDE */
+.gcard{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.gcard::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--v),var(--t))}
+.gstep{position:absolute;top:14px;right:16px;background:var(--v3);color:var(--v2);font-size:.68rem;font-weight:700;padding:2px 10px;border-radius:100px}
+.gtitle{font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:6px;padding-right:70px}
+.gdesc{font-size:.82rem;color:var(--ink2);line-height:1.65;margin-bottom:10px}
+.gqw{background:var(--gr3);border:1px solid rgba(40,167,118,.15);border-radius:var(--r);padding:9px 12px;margin-bottom:10px;font-size:.78rem;color:var(--gr)}
+.tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tool{background:var(--bg3);border:1px solid var(--bd);border-radius:100px;padding:4px 10px;font-size:.72rem;color:var(--ink2)}
+
+/* FEEDBACK */
+.fbcard{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:8px;box-shadow:var(--sh)}
+.fblbl{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.fbtxt{font-family:var(--serif);font-style:italic;font-size:.86rem;color:var(--ink2);line-height:1.6}
+
+/* DIVIDER */
+.secdiv{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;margin:20px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--bd)}
+
+/* ALERT */
+.alertbox{background:var(--ro3);border:1px solid rgba(232,68,90,.15);border-radius:var(--r);padding:14px;margin-top:6px}
+.alertbox-t{font-size:.76rem;font-weight:700;color:var(--ro);margin-bottom:4px}
+.alertbox-d{font-size:.79rem;color:#7a2030;line-height:1.5}
+
+/* META PILLS */
+.mpills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.mp{background:var(--bg3);border:1px solid var(--bd);border-radius:100px;padding:3px 10px;font-size:.7rem;font-weight:600;color:var(--ink3)}
+
+/* UPGRADE MODAL */
+.umov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:20px}
+.umov.show{display:flex}
+.umbox{background:var(--bg2);border:1px solid var(--bd2);border-radius:14px;padding:30px 26px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.umbox h2{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:8px}
+.umbox p{font-size:.84rem;color:var(--ink3);line-height:1.6;margin-bottom:18px}
+.umfeats{text-align:left;margin-bottom:20px;display:flex;flex-direction:column;gap:7px}
+.umfeat{display:flex;gap:9px;align-items:center;font-size:.82rem;color:var(--ink3)}
+.umfeat::before{content:'✓';color:var(--v);font-weight:700;flex-shrink:0}
+.umprice{font-family:var(--serif);font-size:2rem;font-weight:600;color:var(--v2);margin-bottom:5px}
+.umprice span{font-size:.9rem;font-weight:400;color:var(--ink3)}
+.umcta{display:block;width:100%;padding:13px;background:var(--v2);color:white;border:none;border-radius:var(--r);font-family:var(--sans);font-size:.95rem;font-weight:600;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.umcta:hover{background:var(--v)}
+.umdis{background:none;border:none;color:var(--ink3);font-size:.8rem;cursor:pointer}
+
+/* HAMBURGER */
+.hamb{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:transparent;flex-shrink:0}
+.hamb span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s}
+.hamb.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamb.open span:nth-child(2){opacity:0}
+.hamb.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mdr{display:none;position:fixed;top:0;left:0;bottom:0;width:268px;background:var(--bg2);border-right:1px solid var(--bd);z-index:299;flex-direction:column;padding:80px 14px 28px;gap:3px;box-shadow:4px 0 24px rgba(0,0,0,.1)}
+.mdr.open{display:flex}
+.dov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:298}
+.dov.open{display:block}
+.mdr-bot{margin-top:auto;padding-top:16px;border-top:1px solid var(--bd)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  body{overflow-x:hidden}
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .topbar{padding:0 16px;height:56px;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+  .hamb{display:flex}
+  .content{padding:16px;padding-bottom:max(24px,env(safe-area-inset-bottom))}
+  .fgrid{grid-template-columns:1fr}
+  .sgrid{grid-template-columns:1fr 1fr}
+  .fcard{padding:18px 14px}
+  #analyzeBtn{padding:14px;font-size:.95rem;min-height:50px}
+  .btn{min-height:44px;-webkit-tap-highlight-color:transparent}
+  input,select,textarea{font-size:16px !important}
+}
+</style>
+</head>
+<body>
+
+<div class="dov" id="dov" onclick="closeDr()"></div>
+<div class="mdr" id="mdr">
+  <div style="padding:0 8px 16px;margin-bottom:8px;border-bottom:1px solid var(--bd)">
+    <div class="s-av" style="width:38px;height:38px;font-size:.9rem;margin-bottom:8px">C</div>
+    <div style="font-family:var(--serif);font-size:.9rem;font-weight:600">Camille</div>
+    <div style="font-size:.73rem;color:var(--ink3)">DRH · Klara RH</div>
+  </div>
+  <button class="ni active" onclick="sv('analyse');closeDr()"><span class="ni-ic">◈</span> Analyser</button>
+  <button class="ni" onclick="sv('okr');closeDr()"><span class="ni-ic">◎</span> OKRs</button>
+  <button class="ni" onclick="sv('plans');closeDr()"><span class="ni-ic">◉</span> Plans d'action</button>
+  <button class="ni" onclick="sv('guide');closeDr()"><span class="ni-ic">◷</span> Guide IA</button>
+  <button class="ni" onclick="sv('saved');closeDr()"><span class="ni-ic">⊞</span> Rapports</button>
+  <div class="mdr-bot">
+    <div class="upbanner">
+      <p>🚀 <strong>Débloquer l'analyse complète</strong><br>Plans d'action, OKRs et guide IA personnalisés.</p>
+      <a class="upbtn" href="https://humanaigen.gumroad.com/l/performai" target="_blank">Upgrade — 39€/mois →</a>
+    </div>
+  </div>
+</div>
+
+<div class="umov" id="umod">
+  <div class="umbox">
+    <div style="font-size:2rem;margin-bottom:10px">📊</div>
+    <h2>Upgrade to Pro</h2>
+    <p>Débloquez l'analyse complète, les OKRs et les plans d'action personnalisés pour chaque employé.</p>
+    <div class="umfeats">
+      <div class="umfeat">Analyses de performance illimitées</div>
+      <div class="umfeat">OKRs générés automatiquement</div>
+      <div class="umfeat">Plans d'action Camille + Manager</div>
+      <div class="umfeat">Guide IA étape par étape</div>
+      <div class="umfeat">Feedback 360° synthétisé</div>
+    </div>
+    <div class="umprice">39€<span>/mois</span></div>
+    <a class="umcta" href="https://humanaigen.gumroad.com/l/performai" target="_blank">Obtenir l'accès Pro →</a>
+    <button class="umdis" onclick="document.getElementById('umod').classList.remove('show')">Plus tard</button>
+  </div>
+</div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="s-profile">
+      <div class="s-av">C</div>
+      <div class="s-name">Camille</div>
+      <div class="s-role">DRH · Klara RH</div>
+      <div class="s-star">⭐ Outstanding · Q3-Q4 2025</div>
+    </div>
+    <div class="nsec">Workspace</div>
+    <button class="ni active" onclick="sv('analyse')"><span class="ni-ic">◈</span> Analyser</button>
+    <button class="ni" onclick="sv('okr')"><span class="ni-ic">◎</span> OKRs</button>
+    <button class="ni" onclick="sv('plans')"><span class="ni-ic">◉</span> Plans d'action</button>
+    <button class="ni" onclick="sv('guide')"><span class="ni-ic">◷</span> Guide IA</button>
+    <div class="nsec">Compte</div>
+    <button class="ni" onclick="sv('saved')"><span class="ni-ic">⊞</span> Rapports sauvegardés</button>
+    <button class="ni" onclick="sv('settings')"><span class="ni-ic">⊙</span> Paramètres</button>
+    <div class="sb-bot">
+      <div class="upbanner">
+        <p>🚀 <strong>Débloquer l'analyse complète</strong><br>OKRs et plans d'action personnalisés.</p>
+        <a class="upbtn" href="https://humanaigen.gumroad.com/l/performai" target="_blank">Upgrade — 39€/mois →</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-l">
+        <button class="hamb" id="hamb" onclick="togDr()"><span></span><span></span><span></span></button>
+        <div class="tb-title" id="tbtitle">Analyser la performance</div>
+      </div>
+      <div class="tb-r">
+        <div class="lang-tog">
+          <button class="lbtn active" id="ben" onclick="setLang('fr')">FR</button>
+          <div style="width:1px;background:var(--bd);height:16px"></div>
+          <button class="lbtn" id="bfr" onclick="setLang('en')">EN</button>
+        </div>
+        <button class="btn btn-g" id="exportBtn" style="display:none" onclick="alert('Export PDF — bientôt disponible')">Exporter</button>
+        <button class="btn btn-v" id="newBtn" style="display:none" onclick="resetForm()">+ Nouveau</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ANALYSE VIEW -->
+      <div class="view active" id="view-analyse">
+        <div id="formSec">
+          <div class="ph">
+            <h1>Analyse de Performance</h1>
+            <p>Renseignez les informations — l'IA génère un rapport complet avec OKRs et plans d'action.</p>
+          </div>
+          <div class="fcard">
+            <h3>Informations de l'employé</h3>
+            <div class="ferr" id="ferr">Veuillez renseigner le nom et le poste.</div>
+            <div class="fgrid">
+              <div class="fr"><label>Nom *</label><input type="text" id="empName" value="Camille" placeholder="ex. Sophie Martin"/></div>
+              <div class="fr"><label>Poste *</label><input type="text" id="empRole" value="DRH" placeholder="ex. DRH, Manager RH"/></div>
+            </div>
+            <div class="fgrid">
+              <div class="fr"><label>Entreprise</label><input type="text" id="empCo" value="Klara RH" placeholder="ex. Klara RH"/></div>
+              <div class="fr"><label>Manager</label><input type="text" id="empMgr" placeholder="ex. Directeur Général"/></div>
+            </div>
+            <div class="fgrid">
+              <div class="fr"><label>Période d'évaluation</label>
+                <select id="period"><option>Q3-Q4 2025</option><option>Q1-Q2 2026</option><option>Annuel 2025</option><option>Annuel 2026</option></select>
+              </div>
+              <div class="fr"><label>Ancienneté dans le poste</label>
+                <select id="tenure"><option>0–6 mois</option><option>6–12 mois</option><option>1–2 ans</option><option selected>2–4 ans</option><option>4+ ans</option></select>
+              </div>
+            </div>
+            <div class="fr"><label>Note de performance</label>
+              <div class="rpills">
+                <div class="rpill" onclick="setR(this,'1 - En dessous des attentes')">1 — En dessous</div>
+                <div class="rpill" onclick="setR(this,'2 - Partiellement conforme')">2 — Partiel</div>
+                <div class="rpill" onclick="setR(this,'3 - Conforme aux attentes')">3 — Conforme</div>
+                <div class="rpill" onclick="setR(this,'4 - Dépasse les attentes')">4 — Dépasse</div>
+                <div class="rpill active" onclick="setR(this,'5 - Outstanding')">5 — Outstanding</div>
+              </div>
+            </div>
+            <div class="fr"><label>Réalisations clés cette période</label>
+              <textarea id="achievements" placeholder="ex. Leadership RH exceptionnel, intelligence relationnelle développée, maîtrise complète des processus RH end-to-end, forte influence CODIR...">Leadership RH exceptionnel, intelligence relationnelle très développée, maîtrise end-to-end des processus RH, forte influence CODIR, excellence en reporting et analyse data RH, leadership transformationnel reconnu par toute l'organisation.</textarea>
+            </div>
+            <div class="fr"><label>Axes d'amélioration</label>
+              <textarea id="improvements" placeholder="ex. Intégration IA, automatisation...">Intégration des outils IA dans la fonction RH, automatisation des processus répétitifs (6-8h/semaine récupérables), veille technologique RH à structurer, délégation via outils digitaux.</textarea>
+            </div>
+            <div class="fr"><label>Contexte additionnel (optionnel)</label>
+              <textarea id="ctx" placeholder="ex. Période de croissance, restructuration..."></textarea>
+            </div>
+            <button class="btn btn-v" id="analyzeBtn" onclick="analyze()" style="width:100%;padding:13px;font-size:.95rem;margin-top:4px">◈ Générer le rapport complet</button>
+          </div>
+        </div>
+
+        <div class="ail" id="aiLoad">
+          <div class="aisp"></div>
+          <h3>Analyse en cours…</h3>
+          <p>L'IA génère le rapport de performance complet.</p>
+          <div class="aisteps">
+            <div class="aistep" id="s1"><div class="asd"></div><span>Analyse des données de performance</span></div>
+            <div class="aistep" id="s2"><div class="asd"></div><span>Calcul des scores et détection risques</span></div>
+            <div class="aistep" id="s3"><div class="asd"></div><span>Génération des OKRs personnalisés</span></div>
+            <div class="aistep" id="s4"><div class="asd"></div><span>Construction des plans d'action</span></div>
+          </div>
+        </div>
+
+        <div id="resultSec" style="display:none"></div>
+      </div>
+
+      <!-- OKR VIEW -->
+      <div class="view" id="view-okr">
+        <div class="ph"><h1>OKRs 2025–2026</h1><p>Objectifs et résultats clés — générés et personnalisés par l'IA</p></div>
+        <div id="okrContent"><div class="ail show"><div class="aisp"></div><h3>Lancez une analyse pour voir les OKRs</h3><p>Remplissez le formulaire et cliquez Analyser</p></div></div>
+      </div>
+
+      <!-- PLANS VIEW -->
+      <div class="view" id="view-plans">
+        <div class="ph"><h1>Plans d'action</h1><p>Actions concrètes pour l'employé et son manager</p></div>
+        <div id="plansContent"><div class="ail show"><div class="aisp"></div><h3>Lancez une analyse pour voir les plans</h3><p>Remplissez le formulaire et cliquez Analyser</p></div></div>
+      </div>
+
+      <!-- GUIDE VIEW -->
+      <div class="view" id="view-guide">
+        <div class="ph"><h1>Guide IA — Étape par étape</h1><p>Comment intégrer l'IA dans la fonction RH concrètement</p></div>
+        <div id="guideContent"><div class="ail show"><div class="aisp"></div><h3>Lancez une analyse pour voir le guide</h3><p>Remplissez le formulaire et cliquez Analyser</p></div></div>
+      </div>
+
+      <!-- SAVED VIEW -->
+      <div class="view" id="view-saved">
+        <div class="ph"><h1>Rapports sauvegardés</h1></div>
+        <div id="savedList">
+          <div style="text-align:center;padding:60px;color:var(--ink3)">
+            <div style="font-size:2rem;margin-bottom:12px;opacity:.3">⊞</div>
+            <p style="font-size:.875rem">Aucun rapport sauvegardé.<br>Générez votre première analyse.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS VIEW -->
+      <div class="view" id="view-settings">
+        <div class="ph"><h1>Paramètres</h1></div>
+        <div class="fcard" style="max-width:480px">
+          <div class="fr"><label>Entreprise par défaut</label><input type="text" placeholder="Klara RH"/></div>
+          <div class="fr"><label>Langue</label><select><option>Français</option><option>English</option></select></div>
+          <button class="btn btn-v" style="margin-top:4px">Sauvegarder</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const GUMROAD = 'https://humanaigen.gumroad.com/l/performai';
+let lang = 'fr';
+let rating = '5 - Outstanding';
+let analyzeCount = 0;
+let saved = [];
+let currentData = null;
+
+function setLang(l){
+  lang=l;
+  document.getElementById('ben').classList.toggle('active',l==='fr');
+  document.getElementById('bfr').classList.toggle('active',l==='en');
+}
+function setR(el,v){
+  document.querySelectorAll('.rpill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');rating=v;
+}
+function togDr(){
+  document.getElementById('mdr').classList.toggle('open');
+  document.getElementById('dov').classList.toggle('open');
+  document.getElementById('hamb').classList.toggle('open');
+}
+function closeDr(){
+  document.getElementById('mdr').classList.remove('open');
+  document.getElementById('dov').classList.remove('open');
+  document.getElementById('hamb').classList.remove('open');
+}
+function sv(n){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+n).classList.add('active');
+  if(event&&event.currentTarget)event.currentTarget.classList.add('active');
+  const t={analyse:'Analyser la performance',okr:'OKRs 2025–2026',plans:'Plans d\'action',guide:'Guide IA',saved:'Rapports sauvegardés',settings:'Paramètres'};
+  document.getElementById('tbtitle').textContent=t[n]||n;
+}
+
+async function analyze(){
+  const name=document.getElementById('empName').value.trim();
+  const role=document.getElementById('empRole').value.trim();
+  if(!name||!role){document.getElementById('ferr').classList.add('show');return;}
+  document.getElementById('ferr').classList.remove('show');
+
+  const co=document.getElementById('empCo').value.trim();
+  const mgr=document.getElementById('empMgr').value.trim();
+  const period=document.getElementById('period').value;
+  const tenure=document.getElementById('tenure').value;
+  const achievements=document.getElementById('achievements').value.trim();
+  const improvements=document.getElementById('improvements').value.trim();
+  const ctx=document.getElementById('ctx').value.trim();
+  const li=lang==='en'?'Write the entire report in English.':'Écris tout le rapport en français.';
+
+  document.getElementById('formSec').style.display='none';
+  document.getElementById('resultSec').style.display='none';
+  document.getElementById('aiLoad').classList.add('show');
+  document.getElementById('analyzeBtn').disabled=true;
+  document.getElementById('exportBtn').style.display='none';
+  document.getElementById('newBtn').style.display='none';
+
+  ['s1','s2','s3','s4'].forEach((s,i)=>setTimeout(()=>{
+    document.getElementById(s).classList.add('active');
+    if(i>0)document.getElementById('s'+i).classList.add('done');
+  },i*700));
+
+  const prompt=`Tu es un expert en développement RH. Analyse la performance de ${name} et génère un rapport complet. ${li}
+
+Employé: ${name}
+Poste: ${role}
+${co?'Entreprise: '+co:''}
+${mgr?'Manager: '+mgr:''}
+Période: ${period}
+Ancienneté: ${tenure}
+Note: ${rating}
+${achievements?'Réalisations: '+achievements:''}
+${improvements?'Axes d\'amélioration: '+improvements:''}
+${ctx?'Contexte: '+ctx:''}
+
+Réponds UNIQUEMENT avec un JSON valide (sans markdown):
+{
+  "summary": "Synthèse exécutive en 2-3 phrases percutantes",
+  "scores": {"performance":94,"engagement":88,"leadership":91,"maturity_ia":62},
+  "flight_risk": "low|medium|high",
+  "flight_risk_reason": "Explication courte",
+  "strengths": [{"title":"Titre","desc":"Description détaillée"}],
+  "improvements": [{"title":"Titre","desc":"Description avec impact chiffré si possible"}],
+  "feedback_360": [{"from":"Source","text":"Feedback détaillé"}],
+  "alerts": [{"type":"ok|warning|danger","msg":"Message d'alerte actionnable"}],
+  "okrs": [{"objective":"Titre ambitieux","period":"Période","why":"Pourquoi prioritaire","key_results":[{"kr":"KR mesurable","target":"Cible chiffrée","progress":0}]}],
+  "plan_employee": [{"title":"Action","priority":"high|medium|low","timeline":"Délai","desc":"Description actionnable","steps":["étape 1","étape 2","étape 3","étape 4"],"metric":"Métrique de succès chiffrée"}],
+  "plan_manager": [{"title":"Action manager","timeline":"Délai","desc":"Description","steps":["étape 1","étape 2","étape 3"]}],
+  "guide_ia": [{"step":1,"title":"Titre","desc":"Description détaillée","tools":["outil1","outil2"],"duration":"Durée","quick_win":"Gain concret immédiat"}]
+}
+
+Génère: 5-6 forces, 4 axes, 3 feedbacks, 2-3 alertes, 4 OKRs, 4 plans employé, 3 plans manager, 5 étapes guide IA.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const txt=(data.content||[]).map(c=>c.text||'').join('');
+    currentData=JSON.parse(txt.replace(/```json|```/g,'').trim());
+    currentData._name=name;currentData._role=role;currentData._co=co;currentData._period=period;
+  }catch(e){
+    currentData=getFallback(name,role,co,period);
+  }
+
+  setTimeout(()=>document.getElementById('s4').classList.add('done'),200);
+  setTimeout(()=>{
+    document.getElementById('aiLoad').classList.remove('show');
+    renderAll(currentData);
+  },3600);
+}
+
+function renderAll(d){
+  renderReport(d);
+  renderOKRs(d.okrs||[]);
+  renderPlans(d.plan_employee||[],d.plan_manager||[]);
+  renderGuide(d.guide_ia||[]);
+  saved.push({name:d._name,role:d._role,period:d._period,id:Date.now()});
+  renderSaved();
+  document.getElementById('analyzeBtn').disabled=false;
+  document.getElementById('exportBtn').style.display='block';
+  document.getElementById('newBtn').style.display='block';
+  analyzeCount++;
+  if(analyzeCount>2)setTimeout(()=>document.getElementById('umod').classList.add('show'),3000);
+}
+
+function renderReport(d){
+  const sec=document.getElementById('resultSec');
+  sec.style.display='block';
+  const sc=d.scores||{performance:94,engagement:88,leadership:91,maturity_ia:62};
+  const riskClass=d.flight_risk==='high'?'tr':d.flight_risk==='medium'?'ta':'tg';
+  const riskLbl=d.flight_risk==='high'?'⚠ Risque élevé':d.flight_risk==='medium'?'◉ Risque moyen':'✓ Risque faible';
+
+  sec.innerHTML=`
+  <div class="rcard">
+    <div class="rhead">
+      <h3>${d._name} — ${d._role}${d._co?' · '+d._co:''}</h3>
+      <div class="mpills">
+        <span class="mp">${d._period}</span>
+        <span class="mp">${rating}</span>
+        <span class="tag ${riskClass}">${riskLbl}</span>
+      </div>
+    </div>
+    <div class="rbody">
+      <div class="sgrid">
+        <div class="scell"><div class="sval" style="color:var(--v)">${sc.performance}</div><div class="slbl">Performance</div><div class="sbar"><div class="sfill" style="width:${sc.performance}%;background:var(--v)"></div></div></div>
+        <div class="scell"><div class="sval" style="color:var(--gr)">${sc.engagement}</div><div class="slbl">Engagement</div><div class="sbar"><div class="sfill" style="width:${sc.engagement}%;background:var(--gr)"></div></div></div>
+        <div class="scell"><div class="sval" style="color:var(--t)">${sc.leadership}</div><div class="slbl">Leadership</div><div class="sbar"><div class="sfill" style="width:${sc.leadership}%;background:var(--t)"></div></div></div>
+        <div class="scell"><div class="sval" style="color:var(--am)">${sc.maturity_ia||sc.maturite_ia||62}</div><div class="slbl">Maturité IA</div><div class="sbar"><div class="sfill" style="width:${sc.maturity_ia||sc.maturite_ia||62}%;background:var(--am)"></div></div></div>
+      </div>
+      ${(d.alerts||[]).map(a=>`<div style="background:${a.type==='ok'?'var(--gr3)':a.type==='warning'?'var(--am3)':'var(--ro3)'};border:1px solid ${a.type==='ok'?'rgba(40,167,118,.2)':a.type==='warning'?'rgba(240,165,0,.2)':'rgba(232,68,90,.2)'};border-radius:var(--r);padding:11px 14px;margin-bottom:10px;font-size:.84rem;color:${a.type==='ok'?'var(--gr)':a.type==='warning'?'var(--am2)':'var(--ro)'};">${a.msg}</div>`).join('')}
+      <div class="sumbox"><p>${d.summary}</p></div>
+
+      <div class="secdiv">💎 Points forts</div>
+      ${(d.strengths||[]).map(s=>`<div class="icard"><div class="si" style="border:none;padding:0"><div class="si-dot" style="background:var(--t)"></div><div class="si-txt"><strong>${s.title}</strong> — ${s.desc}</div></div></div>`).join('')}
+
+      <div class="secdiv">🎯 Axes de développement</div>
+      ${(d.improvements||[]).map(a=>`<div class="ai-item"><div class="ai-title">${a.title}</div><div class="ai-desc">${a.desc}</div></div>`).join('')}
+
+      <div class="secdiv">💬 Feedback 360°</div>
+      ${(d.feedback_360||[]).map((f,i)=>{
+        const cols=['var(--v2)','var(--t2)','var(--gr)'];
+        return`<div class="fbcard"><div class="fblbl" style="color:${cols[i%3]}">${f.from}</div><div class="fbtxt">"${f.text}"</div></div>`;
+      }).join('')}
+
+      <div style="background:var(--ro3);border:1px solid rgba(232,68,90,.15);border-radius:var(--r);padding:16px;margin-top:6px;display:flex;gap:12px;align-items:flex-start">
+        <div style="font-size:1.4rem;flex-shrink:0">⚡</div>
+        <div><div style="font-size:.82rem;font-weight:700;color:var(--ro);margin-bottom:4px">Alerte Opportunité — Transformation IA</div>
+        <div style="font-size:.82rem;color:#7a2030;line-height:1.55">${d.flight_risk_reason||'Les DRH qui maîtrisent les outils IA en 2025-2026 prendront une avance décisive. Camille a toutes les compétences — il manque le cadre et les outils.'}</div></div>
+      </div>
+
+      <div style="display:flex;justify-content:center;margin-top:24px;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-v" onclick="sv('okr')">Voir les OKRs →</button>
+        <button class="btn btn-g" onclick="sv('plans')">Plans d'action →</button>
+        <button class="btn btn-g" onclick="sv('guide')">Guide IA →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderOKRs(okrs){
+  const c=document.getElementById('okrContent');
+  if(!okrs.length){c.innerHTML='<p style="color:var(--ink3);padding:20px">Lancez une analyse pour voir les OKRs.</p>';return;}
+  c.innerHTML=okrs.map((o,i)=>`
+    <div class="okrcard">
+      <div class="okrh">
+        <div class="okrn">O${i+1}</div>
+        <div style="flex:1"><div class="okrobj">${o.objective}</div><div style="font-size:.72rem;color:var(--ink3);margin-top:2px">${o.period||''}</div></div>
+        <span class="tag tv">${o.period||'2026'}</span>
+      </div>
+      ${o.why?`<div style="font-size:.8rem;color:var(--ink3);font-style:italic;margin-bottom:10px;padding-left:38px;line-height:1.5">${o.why}</div>`:''}
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:6px">
+        ${(o.key_results||[]).map((kr,ki)=>`
+          <div class="kritem">
+            <div class="krrow"><div class="krtxt"><strong>KR${ki+1}:</strong> ${kr.kr}</div><div class="krtgt">→ ${kr.target}</div></div>
+            <div class="krbar"><div class="krfill" style="width:${kr.progress||0}%"></div></div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function renderPlans(emp,mgr){
+  const c=document.getElementById('plansContent');
+  const pc={high:'tr',medium:'ta',low:'tg'};
+  const pl={high:'🔴 Haute',medium:'🟡 Moyenne',low:'🟢 Basse'};
+  let h=`<div class="secdiv" style="color:var(--v2)">👩 Plan — Employé</div>`;
+  h+=emp.map((p,i)=>`
+    <div class="plancard">
+      <div class="planh">
+        <div class="plann">${i+1}</div>
+        <div style="flex:1"><div class="plantitle">${p.title}</div><div class="plantl">${p.timeline}</div></div>
+        <span class="tag ${pc[p.priority]||'tv'}">${pl[p.priority]||p.priority}</span>
+      </div>
+      <div class="plandesc">${p.desc}</div>
+      ${(p.steps&&p.steps.length)?`<div class="stlist">${p.steps.map((s,si)=>`<div class="st"><div class="stn">${si+1}</div><div class="stt">${s}</div></div>`).join('')}</div>`:''}
+      ${p.metric?`<div class="sm">✓ <strong>Succès mesuré par :</strong> ${p.metric}</div>`:''}
+    </div>`).join('');
+
+  h+=`<div class="secdiv" style="color:var(--t2)">👔 Plan — Manager</div>`;
+  h+=mgr.map((p,i)=>`
+    <div class="plancard" style="border-left:3px solid var(--t2)">
+      <div class="planh">
+        <div class="plann" style="background:var(--t3);color:var(--t2)">${i+1}</div>
+        <div style="flex:1"><div class="plantitle">${p.title}</div><div class="plantl">${p.timeline}</div></div>
+      </div>
+      <div class="plandesc">${p.desc}</div>
+      ${(p.steps&&p.steps.length)?`<div class="stlist">${p.steps.map((s,si)=>`<div class="st"><div class="stn" style="background:var(--t3);color:var(--t2)">${si+1}</div><div class="stt">${s}</div></div>`).join('')}</div>`:''}
+    </div>`).join('');
+  c.innerHTML=h;
+}
+
+function renderGuide(steps){
+  const c=document.getElementById('guideContent');
+  c.innerHTML=steps.map((s,i)=>`
+    <div class="gcard">
+      <div class="gstep">Étape ${s.step||i+1} · ${s.duration||''}</div>
+      <div class="gtitle">${s.title}</div>
+      <div class="gdesc">${s.desc||s.description||''}</div>
+      ${s.quick_win?`<div class="gqw">⚡ <strong>Quick win :</strong> ${s.quick_win}</div>`:''}
+      ${(s.tools&&s.tools.length)?`<div class="tools">${s.tools.map(t=>`<span class="tool">🔧 ${t}</span>`).join('')}</div>`:''}
+    </div>`).join('');
+}
+
+function renderSaved(){
+  const l=document.getElementById('savedList');
+  if(!saved.length)return;
+  l.innerHTML=saved.map(s=>`
+    <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:10px;box-shadow:var(--sh)">
+      <div><div style="font-size:.9rem;font-weight:700;margin-bottom:3px">${s.name} — ${s.role}</div>
+      <div style="font-size:.76rem;color:var(--ink3)">${s.period}</div></div>
+      <span class="tag tv">Rapport</span>
+    </div>`).join('');
+}
+
+function resetForm(){
+  document.getElementById('formSec').style.display='block';
+  document.getElementById('resultSec').style.display='none';
+  document.getElementById('aiLoad').classList.remove('show');
+  document.getElementById('analyzeBtn').disabled=false;
+  document.getElementById('exportBtn').style.display='none';
+  document.getElementById('newBtn').style.display='none';
+  ['s1','s2','s3','s4'].forEach(s=>document.getElementById(s).classList.remove('active','done'));
+}
+
+function getFallback(name,role,co,period){
+  return{
+    _name:name,_role:role,_co:co,_period:period,
+    summary:`${name} est une ${role} brillante et engagée, reconnue pour son excellence opérationnelle et son leadership transformationnel${co?' chez '+co:''}. Son principal axe de développement est l'adoption stratégique des outils IA — un levier qui amplifierait significativement son impact.`,
+    scores:{performance:94,engagement:91,leadership:88,maturity_ia:62},
+    flight_risk:'low',
+    flight_risk_reason:'Engagement élevé et progression constante indiquent un faible risque d\'attrition. La transformation IA renforce l\'attractivité du poste.',
+    strengths:[
+      {title:'Leadership RH exceptionnel',desc:'Pilotage de la fonction RH end-to-end avec vision stratégique et rigueur opérationnelle. Structure l\'organisation RH avec une clarté rare.'},
+      {title:'Intelligence relationnelle développée',desc:'Gestion des talents, culture d\'entreprise et relations sociales maîtrisées. Fédère les équipes autour d\'une vision commune.'},
+      {title:'Maîtrise complète des processus RH',desc:'Recrutement, onboarding, formation, performance, offboarding — chaque étape du cycle RH est optimisée et documentée.'},
+      {title:'Influence et communication CODIR',desc:'Capacité reconnue à porter les sujets RH au niveau stratégique et à influencer les décisions de direction.'},
+      {title:'Analyse data RH et reporting',desc:'Reporting stratégique rigoureux, suivi des KPIs RH et pilotage par la donnée avec une approche analytique mature.'},
+      {title:'Leadership transformationnel',desc:'Capacité à embarquer les équipes dans le changement et à créer une culture de performance durable.'}
+    ],
+    improvements:[
+      {title:'Intégration des outils IA',desc:'La fonction RH est encore peu équipée en outils IA. Fort potentiel de gain sur recrutement, onboarding et formation — estimation : 6-8h/semaine récupérables.'},
+      {title:'Automatisation des processus répétitifs',desc:'Tâches administratives, reporting, communications — toutes automatisables. Score maturité IA actuel : 62/100.'},
+      {title:'Veille technologique RH à structurer',desc:'Nécessité d\'un cadre de veille sur les HR Tech pour anticiper les transformations du métier DRH et rester compétitif.'},
+      {title:'Délégation via outils digitaux',desc:'Certaines tâches opérationnelles peuvent être déléguées à des outils IA pour libérer du temps stratégique précieux.'}
+    ],
+    feedback_360:[
+      {from:'Direction / CODIR',text:'Une DRH exceptionnelle, pierre angulaire de notre culture d\'entreprise. Sa prochaine étape : amener la fonction RH dans l\'ère IA pour consolider notre avantage compétitif.'},
+      {from:'Managers',text:'Toujours disponible, structurée et bienveillante. Elle nous guide efficacement. On aimerait qu\'elle nous aide à adopter des outils IA pour nos équipes.'},
+      {from:'Auto-évaluation',text:'Fière de ce que nous avons construit. Mon défi personnel : devenir une DRH augmentée par l\'IA et entraîner toute mon équipe dans cette transformation.'}
+    ],
+    alerts:[
+      {type:'ok',msg:'✓ Risque de départ faible — engagement et satisfaction élevés. Aucune action de rétention urgente nécessaire.'},
+      {type:'warning',msg:'⚠ Score maturité IA à 62/100 — opportunité de développement prioritaire. Agir dans les 90 prochains jours pour rester compétitif.'}
+    ],
+    okrs:[
+      {objective:'Devenir une DRH augmentée par l\'IA en 6 mois',period:'Q1-Q2 2026',why:'L\'IA est le multiplicateur qui décuplera l\'impact de la fonction RH et libèrera du temps stratégique précieux.',key_results:[{kr:'Déployer 3 outils IA RH opérationnels (onboarding, formation, reporting)',target:'3 outils actifs',progress:0},{kr:'Réduire les tâches administratives de 30%',target:'-30% admin',progress:0},{kr:'Former 100% de l\'équipe RH aux bases de l\'IA',target:'100% formés',progress:0}]},
+      {objective:'Automatiser le reporting RH — gagner 6h par semaine',period:'Q4 2025',why:'Le temps gagné sur le reporting sera réinvesti dans des projets stratégiques à fort impact.',key_results:[{kr:'Dashboard RH automatisé avec 10 KPIs clés en temps réel',target:'1 dashboard actif',progress:0},{kr:'Zéro heure de reporting manuel par semaine',target:'0h manuel',progress:0},{kr:'NPS équipe RH sur les outils digitaux > 8/10',target:'NPS > 8',progress:0}]},
+      {objective:'Déployer 2 agents IA dans les processus RH clés',period:'Q1 2026',why:'L\'IA dans l\'onboarding et la formation permet de scaler la qualité RH sans augmenter les ressources.',key_results:[{kr:'Agent IA onboarding opérationnel sur 100% des nouvelles recrues',target:'100% couverture',progress:0},{kr:'Kits de formation générés par IA pour chaque programme',target:'5 kits créés',progress:0},{kr:'Réduction de 50% du temps de création des plans RH',target:'-50% temps',progress:0}]},
+      {objective:'Positionner l\'entreprise comme leader HR Tech',period:'Q2 2026',why:'La transformation IA RH renforce la marque employeur et attire des talents tech de qualité.',key_results:[{kr:'3 publications LinkedIn sur la transformation IA RH (> 500 vues)',target:'3 posts',progress:0},{kr:'Présentation lors d\'une conférence RH professionnelle',target:'1 talk',progress:0},{kr:'Score marque employeur > 4.2/5',target:'4.2/5',progress:0}]}
+    ],
+    plan_employee:[
+      {title:'Audit et sélection des outils IA RH prioritaires',priority:'high',timeline:'30 jours',desc:'Cartographier les meilleurs outils IA disponibles par processus RH et sélectionner les 3 à déployer en priorité avec ROI calculé.',steps:['Lister les 5 processus RH les plus chronophages','Tester 2-3 outils IA par processus (versions gratuites)','Calculer le ROI estimé en temps et coût','Présenter la sélection finale au CODIR avec budget'],metric:'3 outils sélectionnés, ROI présenté et validé en CODIR'},
+      {title:'Quick win : déployer l\'IA sur l\'onboarding',priority:'high',timeline:'45 jours',desc:'Piloter un outil IA d\'onboarding sur les 3 prochains recrutements et mesurer précisément le temps gagné.',steps:['Tester OnboardingAI sur le prochain recrutement','Mesurer temps IA vs. processus manuel','Collecter feedback manager et nouveau collaborateur','Déployer à 100% si ROI > 2h par plan d\'onboarding'],metric:'-80% du temps de création des plans d\'onboarding'},
+      {title:'Créer le programme interne "RH x IA"',priority:'medium',timeline:'60 jours',desc:'Monter un programme de formation interne pour toute l\'équipe RH sur les outils IA retenus.',steps:['Définir le curriculum en 4 modules pratiques','Organiser une session de formation mensuelle','Créer une bibliothèque d\'outils et ressources partagée','Mesurer l\'adoption avec un NPS mensuel'],metric:'100% de l\'équipe RH formée, NPS > 8/10'},
+      {title:'Présenter le ROI de la transformation IA au CODIR',priority:'medium',timeline:'90 jours',desc:'Quantifier précisément les gains obtenus et défendre le budget pour accélérer le déploiement en phase 2.',steps:['Collecter toutes les métriques de temps et coût économisés','Calculer le ROI en équivalent coût (heures × taux)','Préparer une présentation CODIR en 10 slides','Proposer le budget et le plan pour la phase 2'],metric:'Validation CODIR du budget phase 2 et mandat officiel confirmé'}
+    ],
+    plan_manager:[
+      {title:'Donner le mandat et le budget pour la transformation IA',timeline:'Immédiat',desc:'Valider officiellement le projet de transformation IA RH avec budget dédié et objectifs clairs mesurables.',steps:['Allouer un budget RH Tech dédié (minimum 3 mois)','Officialiser le projet en CODIR et dans l\'organigramme','Réduire les tâches opérationnelles de 20% pour libérer du temps']},
+      {title:'Faciliter les tests et expérimentations',timeline:'30 jours',desc:'Créer un environnement sans friction pour tester des outils IA sans processus d\'approbation lourds.',steps:['Ouvrir un accès direct aux SaaS RH (enveloppe < 500€/mois)','Mettre en place un point mensuel sur les résultats obtenus','Valoriser les apprentissages même en cas d\'échec partiel']},
+      {title:'Reconnaître et valoriser les résultats publiquement',timeline:'60 jours',desc:'S\'assurer que les succès de la transformation IA sont visibles et reconnus dans toute l\'organisation.',steps:['Inclure les KPIs IA dans le prochain bilan RH trimestriel','Présenter les résultats et les gains en CODIR','Soutenir activement la communication externe de l\'employé']}
+    ],
+    guide_ia:[
+      {step:1,title:'Exploration — Tester sans pression',desc:'Passer 1h par jour pendant 2 semaines à tester des outils IA RH sans objectif de déploiement. Objectif : créer de la curiosité, lever les freins et identifier les quick wins évidents.',tools:['Claude / ChatGPT','OnboardingAI (humanai.biz)','Notion AI'],duration:'2 semaines',quick_win:'Générer un plan d\'onboarding complet en 30 secondes'},
+      {step:2,title:'Premier Quick Win — Automatiser 1 tâche',desc:'Identifier la tâche RH la plus chronophage et la remplacer par un outil IA. Objectif concret : gagner 2h par semaine dès le premier mois.',tools:['PostCraft pour les fiches de poste','TrainIQ pour les kits de formation','Outil de scheduling automatique'],duration:'1 mois',quick_win:'-2h par semaine sur les tâches administratives'},
+      {step:3,title:'Formation — Embarquer l\'équipe RH',desc:'Former l\'équipe RH aux 2-3 outils retenus avec des sessions pratiques hebdomadaires. Créer une dynamique collective d\'adoption positive.',tools:['Sessions pratiques hebdomadaires','Guide de bonnes pratiques partagé','Bibliothèque de ressources IA'],duration:'1 mois',quick_win:'Équipe RH autonome sur les outils IA de base'},
+      {step:4,title:'Mesure — Calculer et présenter le ROI',desc:'Quantifier précisément le temps et les coûts économisés grâce à l\'IA. Préparer un rapport de ROI solide pour le CODIR pour obtenir le budget phase 2.',tools:['Dashboard de métriques','Template ROI HR Tech','PerformAI pour le reporting'],duration:'2 semaines',quick_win:'Validation CODIR pour accélérer et financer le déploiement'},
+      {step:5,title:'Amplification — DRH augmentée et ambassadrice',desc:'Partager les résultats en externe pour renforcer la marque employeur. Devenir une voix reconnue de la RH augmentée dans l\'écosystème professionnel.',tools:['LinkedIn (personal branding)','ANDRH / conférences RH','Content creation IA'],duration:'Continu',quick_win:'Reconnaissance DRH innovante — attractivité talents fortement amplifiée'}
+    ]
+  };
+}
+</script>
+</body>
+</html>
